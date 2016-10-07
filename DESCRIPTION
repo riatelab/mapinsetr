@@ -1,0 +1,18 @@
+Package: mapinsetr
+Type: Package
+Title: Create Map Insets
+Version: 0.1.0
+Authors@R: c(
+      person("Timothée", "Giraud", 
+        email = "timothee.giraud@ums-riate.fr", role = c("cre","aut")),
+      person("Nicolas", "Lambert", 
+        email = "nicolas.lambert@ums-riate.fr", role = c("aut")))
+Description: Create map insets from sp object
+License: GPL-3
+Imports: sp, 
+        maptools, 
+        rgeos
+Suggests: cartography
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
