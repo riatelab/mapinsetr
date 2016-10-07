@@ -31,47 +31,28 @@
 #'        }
 #' @export
 move_and_resize <- function(spdf, mask, xy, prj = proj4string(spdf), k){
-  # A faire fonction pour transformer une bbox en spdf
+  # A faire fonction pour transformer une bbox en spdf ?
   # argument pos pour l'encrage du carton
-  # gUnaryNunionage du mask si nrow > 1
-  # problème si une seule colonne dans spdf@data
-  
-  # data(nuts2006)
-  # nuts0.spdf@data <- nuts0.df
-  # spdf <- nuts0.spdf[nuts0.spdf$id %in% c("FR", "LU", "DE", "BE"), ]
-  # mask <- rgeos::readWKT("POLYGON((3862526 2770745, 
-  #                             3862526 2971831,
-  #                             4200108 2971831, 
-  #                             4200108 2770745, 
-  #                             3862526 2770745))")
-  # proj4string(mask) <- proj4string(spdf)
-  # xy = c(5566624, 3599815)
-  # k = 3
-  # x <- move_and_resize(spdf = spdf, mask = mask, xy = c(5566624, 3599815), k = 3)
-  # 
-  
-  
+
+  # default mask
   if (is.null(mask)){
     mask <- gBuffer(spdf)
-    
   }
   
+  # proj tests
   stopifnot(is.projected(spdf), is.projected(mask))
   stopifnot(proj4string(mask)==proj4string(spdf))
   
+  # union mask
   if(length(mask) > 1 ){
     mask <- rgeos::gBuffer(mask)
   }
-  
 
+  # intersect spdf with mask
   inter <- rgeos::gIntersection(mask, spdf, byid = T)
-  
   df <- data.frame(id = sapply(methods::slot(inter, "polygons"), 
                                methods::slot, "ID"), stringsAsFactors = F)
-
-  
   df <- data.frame(do.call('rbind', (strsplit(as.character(df$id)," "))))
-
   df <- data.frame(id = df$X2, stringsAsFactors = F)
   row.names(df) <- df$id
   df <- data.frame(spdf@data[match(row.names(df),  row.names(spdf) ), ])
@@ -79,24 +60,18 @@ move_and_resize <- function(spdf, mask, xy, prj = proj4string(spdf), k){
   row.names(inter) <- row.names(df)
   spdf <- SpatialPolygonsDataFrame(Sr = inter, data = df, match.ID = T)
   
-  
+  # add mask to spdf
   x <- spdf[1, ]
   x@polygons <- mask@polygons
   x@polygons[[1]]@ID <- "YOLO"
   row.names(x@data) <- row.names(x)
+  
+  # resize
   spdf <- rbind(x, spdf)
-  
-  
   spdf_bb <- bbox(spdf) 
   spdf_w <- spdf_bb[1,2] - spdf_bb[1,1]
   spdf_h <- spdf_bb[2,2] - spdf_bb[2,1]
   spdf_sizemax <- which.max(c(spdf_w, spdf_h))
-  
-  
-  
-  # if(k==1){
-  #   k <- 1.0000001
-  # }
   
   if(spdf_sizemax==1){
     scale <- spdf_w * k
@@ -104,28 +79,23 @@ move_and_resize <- function(spdf, mask, xy, prj = proj4string(spdf), k){
     scale <- spdf_h * k
   }
   
-  
-  # ça marche pas....
+  # special k=1 case
   if(k==1){
     spdf_resized <- spdf
   }else{
     spdf_resized <- elide(obj = spdf, scale = scale)
   }
-  points(x = xy[1], y = xy[2], cex = 2, col = "red", pch = 20)
-  
-  
-
   spdf_resized <- maptools::elide(obj = spdf, scale = scale)
 
-  
+  # move
   xy <- xy - bbox(spdf_resized)[,1]
-  
-  
   spdf_moved <- elide(obj = spdf_resized,  shift=xy)
   
+  # get rid of mask
   spdf_moved <- spdf_moved[-1, ]
+
+  # project
   proj4string(spdf_moved) <- prj
   
   return(spdf_moved)
-  
 }
