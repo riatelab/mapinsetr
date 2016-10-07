@@ -7,9 +7,10 @@ Authors@R: c(
         email = "timothee.giraud@ums-riate.fr", role = c("cre","aut")),
       person("Nicolas", "Lambert", 
         email = "nicolas.lambert@ums-riate.fr", role = c("aut")))
-Description: Create map insets from sp object
-License: GPL-3
+Description: Create map insets from sp object. Create spdf object to create fixed insets.
+License: GPL-3 + file LICENSE
 Imports: sp, 
+        methods,
         maptools, 
         rgeos
 Suggests: cartography
