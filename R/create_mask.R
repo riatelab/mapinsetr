@@ -15,11 +15,11 @@
 #'  plot(nuts0.spdf, col = "grey80")
 #'  plot(mymask, add=TRUE, border = "red", lwd = 3)
 #'  mymask2 <- create_mask(bb = nuts0.spdf[nuts0.spdf$id=="BG",], 
-#'                         prj = proj4string(nuts0.spdf), add=FALSE)
+#'                         prj = proj4string(nuts0.spdf))
 #'  plot(mymask2, add=TRUE, border = "green", lwd = 3)
 #' }
 #' @export
-create_mask <- function(bb, prj, interactive = FALSE, add=TRUE){
+create_mask <- function(bb, prj, interactive = FALSE, add = FALSE){
   if(interactive){
     x <- graphics::locator(n=2, type="n")
     minx <- min(x$x)

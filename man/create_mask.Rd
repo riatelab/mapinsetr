@@ -4,7 +4,7 @@
 \alias{create_mask}
 \title{Create a Mask}
 \usage{
-create_mask(bb, prj, interactive = FALSE, add = TRUE)
+create_mask(bb, prj, interactive = FALSE, add = FALSE)
 }
 \arguments{
 \item{bb}{either a bounding box or a Spatial*DataFrame}
@@ -29,7 +29,7 @@ if(require(cartography)){
  plot(nuts0.spdf, col = "grey80")
  plot(mymask, add=TRUE, border = "red", lwd = 3)
  mymask2 <- create_mask(bb = nuts0.spdf[nuts0.spdf$id=="BG",], 
-                        prj = proj4string(nuts0.spdf), add=FALSE)
+                        prj = proj4string(nuts0.spdf))
  plot(mymask2, add=TRUE, border = "green", lwd = 3)
 }
 }
