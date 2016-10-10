@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-Download administrative boundaries of Algeria from the GADM thanks to getData function (from raster).   
+## Download administrative boundaries of Algeria from the GADM thanks to raster::getData.   
  
 ```{r dowload}
 library(raster)
@@ -28,7 +28,8 @@ plot(adm2, add=T, col = "grey80", lwd = 0.2)
 
 
 
-Create a mask en Alger region
+## Create a mask en Alger region
+
 ```{r mask}
 library(mapinsetr)
 box_alger <- create_mask(bb = adm2[adm2$NAME_1=="Alger", ], 
@@ -38,7 +39,8 @@ plot(adm2, add=T, col = "grey80", lwd = 0.2)
 plot(box_alger, border = "red", add=T, lwd = 2)
 ```
 
-Use that mask to extract regions and create an inset
+## Use that mask to extract regions and create an inset
+
 ```{r createInset}
 zoom_alger <- move_and_resize(spdf = adm2, mask = box_alger, xy = c(-1000000,  -100000), k = 15)
 box <- move_and_resize(spdf = box_alger, mask = box_alger, xy = c(-1000000,  -100000), k = 15)
@@ -51,7 +53,7 @@ plot(box, border = "red", lwd = 2, add=T)
 ```
 
 
-Merge the original basemap and inset
+## Merge the original basemap and inset
 
 ```{r mergespdf}
 
@@ -60,7 +62,7 @@ adm2final <- inset_rbinder(list(adm2, zoom_alger))
 plot(adm2final, col = "grey80", lwd = 0.2)
 ```
 
-Plot an example
+## Plot an example
 
 ```{r ex}
 

@@ -1,4 +1,5 @@
-Download administrative boundaries of Algeria from the GADM thanks to getData function (from raster).
+Download administrative boundaries of Algeria from the GADM thanks to raster::getData.
+--------------------------------------------------------------------------------------
 
 ``` r
 library(raster)
@@ -20,6 +21,7 @@ plot(adm2, add=T, col = "grey80", lwd = 0.2)
 ![](ex_files/figure-markdown_github/dowload-1.png)
 
 Create a mask en Alger region
+-----------------------------
 
 ``` r
 library(mapinsetr)
@@ -33,6 +35,7 @@ plot(box_alger, border = "red", add=T, lwd = 2)
 ![](ex_files/figure-markdown_github/mask-1.png)
 
 Use that mask to extract regions and create an inset
+----------------------------------------------------
 
 ``` r
 zoom_alger <- move_and_resize(spdf = adm2, mask = box_alger, xy = c(-1000000,  -100000), k = 15)
@@ -48,6 +51,7 @@ plot(box, border = "red", lwd = 2, add=T)
 ![](ex_files/figure-markdown_github/createInset-1.png)
 
 Merge the original basemap and inset
+------------------------------------
 
 ``` r
 adm2final <- inset_rbinder(list(adm2, zoom_alger))
@@ -58,6 +62,7 @@ plot(adm2final, col = "grey80", lwd = 0.2)
 ![](ex_files/figure-markdown_github/mergespdf-1.png)
 
 Plot an example
+---------------
 
 ``` r
 library(cartography)
