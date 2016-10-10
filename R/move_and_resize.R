@@ -11,26 +11,18 @@
 #' @import maptools
 #' @import rgeos
 #' @examples
-#' \dontrun{
 #' if(require(cartography)){
 #'   data(nuts2006)
-#'   nuts0.spdf@data <- nuts0.df
-#'   spdf <- nuts0.spdf[nuts0.spdf$id %in% c("FR", "LU", "DE", "BE"), ]
-#'   mask <- rgeos::readWKT("POLYGON((3862526 2770745, 
-#'                               3862526 2971831,
-#'                               4200108 2971831, 
-#'                               4200108 2770745, 
-#'                               3862526 2770745))")
-#'   proj4string(mask) <- proj4string(spdf)
-#'   x <- move_and_resize(spdf = spdf, mask = mask, xy = c(5566624, 3599815), k = 3)
+#'   mybbox <- rbind(c(4235059,4507390),c(2559828, 2784798)) 
+#'   mymask <- create_mask(bb = mybbox, prj = proj4string(nuts0.spdf), add=FALSE)
+#'   inset <- move_and_resize(spdf = nuts0.spdf, mask = mymask, 
+#'                            xy = c(5566624, 3599815), k = 5)
 #'   plot(nuts0.spdf)
-#'   points(5566624, 3599815)
-#'   plot(mask, add=T)
-#'   plot(x, add=T)
+#'   plot(mymask, lwd = 2, border = "red", add = TRUE)
+#'   plot(inset, add = TRUE)
 #' }
-#'        }
 #' @export
-move_and_resize <- function(spdf, mask, xy, prj = proj4string(spdf), k){
+move_and_resize <- function(spdf, mask = NULL, xy, prj = proj4string(spdf), k = 1){
   # A faire fonction pour transformer une bbox en spdf ?
   # argument pos pour l'encrage du carton
 

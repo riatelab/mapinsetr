@@ -1,0 +1,10 @@
+branches:
+  only:
+    - master
+    - develop
+
+language: r
+sudo: required
+dist: trusty
+cache: packages
+warnings_are_errors: true
