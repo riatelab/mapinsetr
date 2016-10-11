@@ -3,9 +3,13 @@ mapinsetr
 
 ![](https://img.shields.io/badge/license-GPL--3-brightgreen.svg?style=flat) [![Build Status](https://travis-ci.org/riatelab/mapinsetr.svg?branch=master)](https://travis-ci.org/riatelab/mapinsetr)
 
+![](ex_files/figure-markdown_github/ex-1.png)
+  
+  <br>
+  
 Map insets are small zoom-in or zoom-out maps that focus on particular territories within a general map. `mapinsetr` provides a set of function that help to create such insets.  
 
-
+  
 
 Installation
 ------------
