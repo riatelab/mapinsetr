@@ -3,3 +3,6 @@
 ^\.travis\.yml$
 ^LICENSE$
 ^example$
+^ex.md$
+^ex.Rmd$
+^ex_files$
