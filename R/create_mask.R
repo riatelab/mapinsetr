@@ -47,7 +47,9 @@ create_mask <- function(bb, prj, interactive = FALSE, add = FALSE){
   mask <- rgeos::readWKT(wkt)
   if(add){sp::plot(mask, add=T)}
   proj4string(mask) <- prj
-  mask <- SpatialPolygonsDataFrame(Sr = mask, data = data.frame(id = 1), match.ID = F)
+  mask <- SpatialPolygonsDataFrame(Sr = mask, 
+                                   data = data.frame(id = 1), 
+                                   match.ID = F)
   
   return(mask)
 }
