@@ -3,6 +3,4 @@
 export(create_mask)
 export(inset_rbinder)
 export(move_and_resize)
-import(maptools)
-import(rgeos)
-import(sp)
+import(sf)

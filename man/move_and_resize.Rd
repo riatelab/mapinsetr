@@ -4,35 +4,22 @@
 \alias{move_and_resize}
 \title{Move and Resize a Spatial*DataFrame}
 \usage{
-move_and_resize(spdf, mask = NULL, xy, prj = proj4string(spdf), k = 1)
+move_and_resize(x, mask = NULL, xy, prj = st_crs(x), k = 1)
 }
 \arguments{
-\item{spdf}{the Spatial*Dataframe to resize and move.}
+\item{x}{an sf POLYON or MULTIPOLYGON object to resize and move.}
 
-\item{mask}{a SpatialPolygonsDataFrame used to select the area to move an resize.}
+\item{mask}{an sf POLYON or MULTIPOLYGON object used to select the area to move an resize.}
 
 \item{xy}{coordinates used for the move process, bottomleft corner of the inset.}
 
-\item{prj}{projection of the inset.}
+\item{prj}{outputted projection of the inset.}
 
 \item{k}{factor used to resize.}
 }
 \value{
-A SpatialPolygonsDataFrame
+An sf object
 }
 \description{
-Move and Resize a Spatial*DataFrame
+Move and Resize an sf POLYON or MULTIPOLYGON object
 }
-\examples{
-if(require(cartography)){
-  data(nuts2006)
-  mybbox <- rbind(c(4235059,4507390),c(2559828, 2784798)) 
-  mymask <- create_mask(bb = mybbox, prj = proj4string(nuts0.spdf), add=FALSE)
-  inset <- move_and_resize(spdf = nuts0.spdf, mask = mymask, 
-                           xy = c(5566624, 3599815), k = 5)
-  plot(nuts0.spdf)
-  plot(mymask, lwd = 2, border = "red", add = TRUE)
-  plot(inset, add = TRUE)
-}
-}
-

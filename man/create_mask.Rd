@@ -7,7 +7,8 @@
 create_mask(bb, prj, interactive = FALSE, add = FALSE)
 }
 \arguments{
-\item{bb}{either a bounding box or a Spatial*DataFrame}
+\item{bb}{either a bounding box (bbox object), a numeric vector (xmin, ymin, 
+xmax, ymax) or an sf POLYGON or MULTIPOLYGON object.}
 
 \item{prj}{a projection string}
 
@@ -16,21 +17,9 @@ create_mask(bb, prj, interactive = FALSE, add = FALSE)
 \item{add}{add the mask to the current plot}
 }
 \value{
-A SpatialPolygonsDataFrame
+An sf object
 }
 \description{
-Create a mask based on a bounding box, a Spatial*DataFrame or defined interactively.
+Create a mask based on a bounding box, an sf POLYGON or 
+MULTIPOLYGON or an interactively defined rectancle.
 }
-\examples{
-if(require(cartography)){
- data(nuts2006)
- mybbox <- rbind(c(3998249, 4720519), c(2323018,2879522)) 
- mymask <- create_mask(bb = mybbox, prj = proj4string(nuts0.spdf), add=FALSE)
- plot(nuts0.spdf, col = "grey80")
- plot(mymask, add=TRUE, border = "red", lwd = 3)
- mymask2 <- create_mask(bb = nuts0.spdf[nuts0.spdf$id=="BG",], 
-                        prj = proj4string(nuts0.spdf))
- plot(mymask2, add=TRUE, border = "green", lwd = 3)
-}
-}
-

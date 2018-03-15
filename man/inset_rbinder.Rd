@@ -7,23 +7,12 @@
 inset_rbinder(l = list())
 }
 \arguments{
-\item{l}{a list of Spatial*DataFrame}
+\item{l}{a list of POLYGON or MULTIPOLYGON objects}
 }
 \value{
-A Spatial*DataFrame
+An sf POLYGON or MULTIPOLYGON object
 }
 \description{
-Take a list of Spatial*DataFrame and output a single Spatial*DataFrame
+Take a list of sf POLYGON or MULTIPOLYGON objects and output a 
+single sf POLYGON or MULTIPOLYGON object.
 }
-\examples{
-if(require(cartography)){
-  data(nuts2006)
-  mybbox <- rbind(c(4235059,4507390),c(2559828, 2784798)) 
-  mymask <- create_mask(bb = mybbox, prj = proj4string(nuts0.spdf), add=FALSE)
-  inset <- move_and_resize(spdf = nuts0.spdf, mask = mymask, 
-                           xy = c(5566624, 3599815), k = 5)
-  newnuts <- inset_rbinder(list(nuts0.spdf, inset))  
-  plot(newnuts)
-}
-}
-
