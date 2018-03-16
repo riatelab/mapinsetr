@@ -9,7 +9,10 @@
 #' @return An sf object
 #' @import sf
 #' @export
-move_and_resize <- function(x, mask = NULL, xy, prj = st_crs(x), k = 1){
+move_and_resize <- function(x, mask = NULL, xy, prj, k = 1){
+  # default prj 
+  if(missing(prj)){prj <- st_crs(x)}
+  
   # default mask
   if (missing(mask)){
     mask <- st_union(x)
@@ -28,7 +31,7 @@ move_and_resize <- function(x, mask = NULL, xy, prj = st_crs(x), k = 1){
   x <- st_collection_extract(st_intersection( x, st_geometry(mask)), 
                              type = c("POLYGON"))
   options(warn=0)
-  
+
   # add mask to x
   xm <- x[1, ]
   st_geometry(xm) <- st_geometry(mask)
@@ -41,7 +44,7 @@ move_and_resize <- function(x, mask = NULL, xy, prj = st_crs(x), k = 1){
   
   # get rid of mask
   x <- x[-1,]
-  x <- st_cast(x, "MULTIPOLYGON")
+  if(missing(prj)){}
   st_crs(x) <- prj
   
   return(x)

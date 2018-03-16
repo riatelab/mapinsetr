@@ -1,13 +1,14 @@
 Package: mapinsetr
 Type: Package
 Title: Create Map Insets
+Description: Map insets are small zoom-in or zoom-out maps that focus on particular territories. mapinsetr provides a set of functions that helps to create such insets.  
+Date: 2018-01-30
 Version: 0.2.0
 Authors@R: c(
       person("Timothée", "Giraud", 
         email = "timothee.giraud@ums-riate.fr", role = c("cre","aut")),
       person("Nicolas", "Lambert", 
         email = "nicolas.lambert@ums-riate.fr", role = c("aut")))
-Description: Map insets are small zoom-in or zoom-out maps that focus on particular territories. mapinsetr provides a set of functions that helps to create such insets.  
 License: GPL-3
 Imports: sf,
          methods,

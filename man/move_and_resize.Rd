@@ -4,7 +4,7 @@
 \alias{move_and_resize}
 \title{Move and Resize a Spatial*DataFrame}
 \usage{
-move_and_resize(x, mask = NULL, xy, prj = st_crs(x), k = 1)
+move_and_resize(x, mask = NULL, xy, prj, k = 1)
 }
 \arguments{
 \item{x}{an sf POLYON or MULTIPOLYGON object to resize and move.}

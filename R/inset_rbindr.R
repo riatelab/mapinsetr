@@ -12,6 +12,7 @@ inset_rbinder <- function(l = list()){
                    prj2 = sapply(l,st_crs)[[2]],
                    nrow = sapply(l, nrow),
                    cnames = sapply(l,function(x){paste0(colnames(x), collapse = ",")}),
+                   geom = sapply(l,function(x)unique(st_geometry_type(x))),
                    stringsAsFactors = FALSE)
   if(!length(unique(df[, 1][1]))==1){
     stop("Objects are not of the same type", call. = F)
@@ -32,11 +33,21 @@ inset_rbinder <- function(l = list()){
     }
   }
 
+  # avoid GEOMETRY column type
+  if(!length(unique(df[, 6]))==1){
+    for (i in 1:length(l)){
+      l[[i]] <- st_cast(l[[i]], "MULTIPOLYGON")
+    }
+  }
+  
   r <- 0
   for (i in 1:length(l)){
     row.names(l[[i]]) <- as.character(r + 1:df[i,4])
     r <- r + df[i,4]
   }
+  
+  
+  
   return(do.call('rbind', l))
   
 }
