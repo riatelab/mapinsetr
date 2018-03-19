@@ -4,5 +4,5 @@
 ^LICENSE$
 ^example$
 ^ex.md$
-^ex.Rmd$
-^ex_files$
+^README.Rmd$
+^README_files$

@@ -23,3 +23,20 @@ An sf object
 \description{
 Move and Resize an sf POLYON or MULTIPOLYGON object
 }
+\examples{
+library(sf)
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+nc <- st_transform(nc, 32119)
+
+plot(st_geometry(nc))
+bb <- st_bbox(nc[nc$CNTY_ID == '2030',])
+mask <- create_mask(bb = bb, add = TRUE)
+inset <- move_and_resize(nc, mask, xy = c(190000, 1000), k = 3)
+plot(st_geometry(inset), add = TRUE)
+
+plot(st_geometry(nc))
+mask <- st_buffer(st_centroid(nc[nc$CNTY_ID == 2026,]),dist = 30000)
+plot(st_geometry(mask), border = "red", lwd = 2, add = TRUE)
+inset <- move_and_resize(nc, mask, xy = c(270000, 5000), k = 2.5)
+plot(st_geometry(inset), add = TRUE)
+}

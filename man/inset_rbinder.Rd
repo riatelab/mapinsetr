@@ -16,3 +16,22 @@ An sf POLYGON or MULTIPOLYGON object
 Take a list of sf POLYGON or MULTIPOLYGON objects and output a 
 single sf POLYGON or MULTIPOLYGON object.
 }
+\examples{
+library(sf)
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+nc <- st_transform(nc, 32119)
+
+plot(st_geometry(nc))
+mask1 <- st_buffer(st_centroid(nc[nc$CNTY_ID == 2026,]),dist = 30000)
+mask2 <- st_buffer(st_centroid(nc[nc$CNTY_ID == 2016,]),dist = 30000)
+plot(st_geometry(mask1), border = "red", lwd = 2, add = TRUE)
+plot(st_geometry(mask2), border = "red", lwd = 2, add = TRUE)
+inset1 <- move_and_resize(nc, mask1, xy = c(200000, 5000), k = 2)
+inset2 <- move_and_resize(nc, mask2, xy = c(200000 + 130000, 5000), k = 2)
+plot(st_geometry(inset1), add = TRUE)
+plot(st_geometry(inset2), add = TRUE)
+
+nc_insets <- inset_rbinder(l = list(nc, inset1, inset2))
+plot(st_geometry(nc_insets))
+plot(nc_insets[,9])
+}

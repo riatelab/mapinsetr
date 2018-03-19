@@ -23,3 +23,20 @@ An sf object
 Create a mask based on a bounding box, an sf POLYGON or 
 MULTIPOLYGON or an interactively defined rectancle.
 }
+\examples{
+library(sf)
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+nc <- st_transform(nc, 32119)
+
+plot(st_geometry(nc))
+bb <- st_bbox(nc[nc$CNTY_ID \%in\% c('2030', '1989', '1938'),])
+mask <- create_mask(bb = bb, add = TRUE)
+
+plot(st_geometry(nc))
+bb <- nc[nc$CNTY_ID \%in\% c('2030', '1989', '1938'),]
+mask <- create_mask(bb = bb, add = TRUE)
+
+plot(st_geometry(nc))
+bb <- c(589912, 159757, 694332, 257053)
+mask <- create_mask(bb = bb, prj=32119, add = TRUE)
+}
