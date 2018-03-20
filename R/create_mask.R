@@ -1,13 +1,14 @@
 #' @title Create a Mask
 #' @name create_mask
-#' @description Create a mask based on a bounding box, an sf POLYGON or 
-#' MULTIPOLYGON or an interactively defined rectancle.
-#' @param bb either a bounding box (bbox object), a numeric vector (xmin, ymin, 
-#' xmax, ymax) or an sf POLYGON or MULTIPOLYGON object. 
-#' @param prj a projection string
-#' @param interactive define the mask interactively 
-#' @param add add the mask to the current plot
-#' @return An sf object
+#' @description Create a mask based on a bounding box (\code{bbox}), a simple 
+#' feature collection (\code{sf}) extent, a simple feature geometry list column 
+#' (\code{sfc}) extent or an interactively defined rectancle.
+#' @param bb either a bounding box, a numeric vector (xmin, ymin, xmax, ymax), 
+#' an sf or sfc object.  
+#' @param prj a CRS string.
+#' @param interactive define the mask interactively.
+#' @param add add the mask to the current plot. 
+#' @return An sf object is returned.
 #' @import sf
 #' @import graphics
 #' @examples 

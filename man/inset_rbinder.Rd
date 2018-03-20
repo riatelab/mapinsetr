@@ -2,19 +2,19 @@
 % Please edit documentation in R/inset_rbindr.R
 \name{inset_rbinder}
 \alias{inset_rbinder}
-\title{Rbind Spatial*DataFrame Objects With Rows and Cols Handling}
+\title{Rbind sf Objects With Rows and Cols Handling}
 \usage{
 inset_rbinder(l = list())
 }
 \arguments{
-\item{l}{a list of POLYGON or MULTIPOLYGON objects}
+\item{l}{a list of sf POLYGON or MULTIPOLYGON objects.}
 }
 \value{
-An sf POLYGON or MULTIPOLYGON object
+An sf polygon or multipolygon object is returned.
 }
 \description{
-Take a list of sf POLYGON or MULTIPOLYGON objects and output a 
-single sf POLYGON or MULTIPOLYGON object.
+Takes a list of sf polygons or multipolygons objects and output 
+a single sf polygon or multipolygon object.
 }
 \examples{
 library(sf)

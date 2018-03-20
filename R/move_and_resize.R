@@ -1,12 +1,15 @@
-#' @title Move and Resize a Spatial*DataFrame
+#' @title Move and Resize an sf Object
 #' @name move_and_resize
-#' @description Move and Resize an sf POLYON or MULTIPOLYGON object
+#' @description Move and resize a simple feature collection of polygons or 
+#' multipolygons.
 #' @param x an sf POLYON or MULTIPOLYGON object to resize and move.
-#' @param mask  an sf POLYON or MULTIPOLYGON object used to select the area to move an resize. 
-#' @param xy coordinates used for the move process, bottomleft corner of the inset. 
-#' @param prj outputted projection of the inset. 
+#' @param mask an sf or sfc POLYGON or MULTIPOLYGON object used to select the 
+#' area to move an resize. 
+#' @param xy coordinates used to move the inset, bottomleft corner of the 
+#' inset. 
+#' @param prj CRS string of the output projection of the inset. 
 #' @param k factor used to resize. 
-#' @return An sf object
+#' @return An sf object is returned.
 #' @import sf
 #' @examples
 #' library(sf)
@@ -38,13 +41,11 @@ move_and_resize <- function(x, mask = NULL, xy, prj, k = 1){
   stopifnot(!is.na(st_crs(mask)), !is.na(st_crs(x)))
 
   # union mask
-  if(nrow(mask) > 1 ){
-    mask <- st_union(mask)
-  }
+  mask <- st_union(mask)
 
   # intersect mask and x
   options(warn=-1)
-  x <- st_collection_extract(st_intersection( x, st_geometry(mask)), 
+  x <- st_collection_extract(st_intersection(x, st_geometry(mask)), 
                              type = c("POLYGON"))
   options(warn=0)
 

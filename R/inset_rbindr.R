@@ -1,9 +1,9 @@
-#' @title Rbind Spatial*DataFrame Objects With Rows and Cols Handling 
+#' @title Rbind sf Objects With Rows and Cols Handling 
 #' @name inset_rbinder
-#' @description Take a list of sf POLYGON or MULTIPOLYGON objects and output a 
-#' single sf POLYGON or MULTIPOLYGON object. 
-#' @param l a list of POLYGON or MULTIPOLYGON objects
-#' @return An sf POLYGON or MULTIPOLYGON object
+#' @description Takes a list of sf polygons or multipolygons objects and output 
+#' a single sf polygon or multipolygon object. 
+#' @param l a list of sf POLYGON or MULTIPOLYGON objects.
+#' @return An sf polygon or multipolygon object is returned. 
 #' @import sf
 #' @examples
 #' library(sf)

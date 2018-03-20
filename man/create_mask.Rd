@@ -7,21 +7,22 @@
 create_mask(bb, prj, interactive = FALSE, add = FALSE)
 }
 \arguments{
-\item{bb}{either a bounding box (bbox object), a numeric vector (xmin, ymin, 
-xmax, ymax) or an sf POLYGON or MULTIPOLYGON object.}
+\item{bb}{either a bounding box, a numeric vector (xmin, ymin, xmax, ymax), 
+an sf or sfc object.}
 
-\item{prj}{a projection string}
+\item{prj}{a CRS string.}
 
-\item{interactive}{define the mask interactively}
+\item{interactive}{define the mask interactively.}
 
-\item{add}{add the mask to the current plot}
+\item{add}{add the mask to the current plot.}
 }
 \value{
-An sf object
+An sf object is returned.
 }
 \description{
-Create a mask based on a bounding box, an sf POLYGON or 
-MULTIPOLYGON or an interactively defined rectancle.
+Create a mask based on a bounding box (\code{bbox}), a simple 
+feature collection (\code{sf}) extent, a simple feature geometry list column 
+(\code{sfc}) extent or an interactively defined rectancle.
 }
 \examples{
 library(sf)

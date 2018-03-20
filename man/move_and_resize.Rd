@@ -2,26 +2,29 @@
 % Please edit documentation in R/move_and_resize.R
 \name{move_and_resize}
 \alias{move_and_resize}
-\title{Move and Resize a Spatial*DataFrame}
+\title{Move and Resize an sf Object}
 \usage{
 move_and_resize(x, mask = NULL, xy, prj, k = 1)
 }
 \arguments{
 \item{x}{an sf POLYON or MULTIPOLYGON object to resize and move.}
 
-\item{mask}{an sf POLYON or MULTIPOLYGON object used to select the area to move an resize.}
+\item{mask}{an sf or sfc POLYGON or MULTIPOLYGON object used to select the 
+area to move an resize.}
 
-\item{xy}{coordinates used for the move process, bottomleft corner of the inset.}
+\item{xy}{coordinates used to move the inset, bottomleft corner of the 
+inset.}
 
-\item{prj}{outputted projection of the inset.}
+\item{prj}{CRS string of the output projection of the inset.}
 
 \item{k}{factor used to resize.}
 }
 \value{
-An sf object
+An sf object is returned.
 }
 \description{
-Move and Resize an sf POLYON or MULTIPOLYGON object
+Move and resize a simple feature collection of polygons or 
+multipolygons.
 }
 \examples{
 library(sf)
