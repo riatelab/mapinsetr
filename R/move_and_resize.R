@@ -37,6 +37,8 @@ move_and_resize <- function(x, mask = NULL, xy, prj, k = 1){
     mask <- st_union(x)
   }
   
+  cp <- class(st_geometry(x))[1]=="sfc_MULTIPOLYGON"
+  
   # input proj tests
   stopifnot(!is.na(st_crs(mask)), !is.na(st_crs(x)))
 
@@ -56,11 +58,14 @@ move_and_resize <- function(x, mask = NULL, xy, prj, k = 1){
   
   # resize & move
   cntrd <- st_centroid(st_combine(x))
-  xg <- (st_geometry(x) - cntrd) * k + cntrd 
+  xg <- (st_geometry(x) - cntrd) * k + cntrd[[1]][] 
   st_geometry(x) <- xg + xy - st_bbox(xg)[1:2]
   
   # get rid of mask
   x <- x[-1,]
+
+  
+  if (cp){x <- st_cast(x, "MULTIPOLYGON")}
   if(missing(prj)){}
   st_crs(x) <- prj
   
