@@ -11,8 +11,8 @@
 #' nc <- st_transform(nc, 32119)
 #' 
 #' plot(st_geometry(nc))
-#' mask1 <- st_buffer(st_centroid(nc[nc$CNTY_ID == 2026,]),dist = 30000)
-#' mask2 <- st_buffer(st_centroid(nc[nc$CNTY_ID == 2016,]),dist = 30000)
+#' mask1 <- st_buffer(st_centroid(st_geometry(nc[nc$CNTY_ID == 2026,])),dist = 30000)
+#' mask2 <- st_buffer(st_centroid(st_geometry(nc[nc$CNTY_ID == 2016,])),dist = 30000)
 #' plot(st_geometry(mask1), border = "red", lwd = 2, add = TRUE)
 #' plot(st_geometry(mask2), border = "red", lwd = 2, add = TRUE)
 #' inset1 <- move_and_resize(nc, mask1, xy = c(200000, 5000), k = 2)

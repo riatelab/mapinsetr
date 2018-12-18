@@ -7,7 +7,7 @@
 move_and_resize(x, mask = NULL, xy, prj, k = 1)
 }
 \arguments{
-\item{x}{an sf POLYON or MULTIPOLYGON object to resize and move.}
+\item{x}{an sf POINT, POLYON or MULTIPOLYGON object to resize and move.}
 
 \item{mask}{an sf or sfc POLYGON or MULTIPOLYGON object used to select the 
 area to move an resize.}
@@ -23,8 +23,8 @@ inset.}
 An sf object is returned.
 }
 \description{
-Move and resize a simple feature collection of polygons or 
-multipolygons.
+Move and resize a simple feature collection of polygons, 
+multipolygons or points.
 }
 \examples{
 library(sf)

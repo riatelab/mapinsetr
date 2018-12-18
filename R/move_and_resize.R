@@ -1,8 +1,8 @@
 #' @title Move and Resize an sf Object
 #' @name move_and_resize
-#' @description Move and resize a simple feature collection of polygons or 
-#' multipolygons.
-#' @param x an sf POLYON or MULTIPOLYGON object to resize and move.
+#' @description Move and resize a simple feature collection of polygons, 
+#' multipolygons or points.
+#' @param x an sf POINT, POLYON or MULTIPOLYGON object to resize and move.
 #' @param mask an sf or sfc POLYGON or MULTIPOLYGON object used to select the 
 #' area to move an resize. 
 #' @param xy coordinates used to move the inset, bottomleft corner of the 
@@ -31,24 +31,25 @@
 move_and_resize <- function(x, mask = NULL, xy, prj, k = 1){
   # default prj 
   if(missing(prj)){prj <- st_crs(x)}
-  
   # default mask
   if (missing(mask)){
     mask <- st_union(x)
   }
-  
-  cp <- class(st_geometry(x))[1]=="sfc_MULTIPOLYGON"
-  
   # input proj tests
   stopifnot(!is.na(st_crs(mask)), !is.na(st_crs(x)))
-
   # union mask
   mask <- st_union(mask)
 
+
+  # if pts 
+  if (class(st_geometry(x))[1]=="sfc_POINT"){
+    move_and_resize_pt(x = x, mask = mask, xy = xy, prj = prj, k = k)
+  }
+    
+  cp <- class(st_geometry(x))[1]=="sfc_MULTIPOLYGON"
   # intersect mask and x
   options(warn=-1)
-  x <- st_collection_extract(st_intersection(x, st_geometry(mask)), 
-                             type = c("POLYGON"))
+  x <- st_intersection(x, st_geometry(mask))
   options(warn=0)
 
   # add mask to x
@@ -64,10 +65,29 @@ move_and_resize <- function(x, mask = NULL, xy, prj, k = 1){
   # get rid of mask
   x <- x[-1,]
 
-  
   if (cp){x <- st_cast(x, "MULTIPOLYGON")}
-  if(missing(prj)){}
   st_crs(x) <- prj
   
+  return(x)
+}
+
+
+move_and_resize_pt <- function(x, mask, xy, prj, k){
+  # intersect mask and x
+  options(warn=-1)
+  x <- st_collection_extract(st_intersection(x, st_geometry(mask)), 
+                             type = c("POINT"))
+  options(warn=0)
+  # add mask to x
+  xm <- x[1, ]
+  st_geometry(xm) <- st_geometry(mask)
+  x <- rbind(xm,x)
+  # resize & move
+  cntrd <- st_centroid(st_combine(x))
+  xg <- (st_geometry(x) - cntrd) * k + cntrd[[1]][] 
+  st_geometry(x) <- xg + xy - st_bbox(xg)[1:2]
+  # get rid of mask
+  x <- x[-1,]
+  st_crs(x) <- prj
   return(x)
 }
