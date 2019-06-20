@@ -38,7 +38,8 @@ inset <- move_and_resize(nc, mask, xy = c(190000, 1000), k = 3)
 plot(st_geometry(inset), add = TRUE)
 
 plot(st_geometry(nc))
-mask <- st_buffer(st_centroid(nc[nc$CNTY_ID == 2026,]),dist = 30000)
+mask <- st_buffer(st_centroid(st_geometry(nc[nc$CNTY_ID == 2026,])),
+                  dist = 30000)
 plot(st_geometry(mask), border = "red", lwd = 2, add = TRUE)
 inset <- move_and_resize(nc, mask, xy = c(270000, 5000), k = 2.5)
 plot(st_geometry(inset), add = TRUE)
