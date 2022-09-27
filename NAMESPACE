@@ -2,6 +2,7 @@
 
 export(create_mask)
 export(inset_rbinder)
+export(m_r)
 export(move_and_resize)
 import(graphics)
 import(sf)

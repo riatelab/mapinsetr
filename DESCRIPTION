@@ -1,20 +1,20 @@
 Package: mapinsetr
 Type: Package
 Title: Create Map Insets
-Description: Map insets are small zoom-in or zoom-out maps that focus on particular territories. mapinsetr provides a set of functions that helps to create such insets.  
-Date: 2018-01-30
+Description: Map insets are small zoom-in or zoom-out maps that focus on
+    particular territories. mapinsetr provides a set of functions that helps
+    to create such insets.  
 Version: 0.3.0
 Authors@R: c(
-      person("Timothée", "Giraud", 
-        email = "timothee.giraud@ums-riate.fr", role = c("cre","aut")),
+      person("Timothée", "Giraud", email = "timothee.giraud@cnrs.fr", 
+        role = c("cre","aut"), comment = c(ORCID = "0000-0002-1932-3323")),
       person("Nicolas", "Lambert", 
-        email = "nicolas.lambert@ums-riate.fr", role = c("aut")))
+        email = "nicolas.lambert@cnrs.fr", role = c("aut")))
 License: GPL-3
 Imports: sf,
-         methods,
-         graphics,
+         graphics
+Suggests: mapsf
 URL: https://github.com/riatelab/mapinsetr/
 BugReports: https://github.com/riatelab/mapinsetr/issues/
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.1

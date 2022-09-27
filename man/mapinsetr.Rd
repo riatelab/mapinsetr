@@ -3,7 +3,6 @@
 \docType{package}
 \name{mapinsetr}
 \alias{mapinsetr}
-\alias{mapinsetr-package}
 \title{mapinsetr Package}
 \description{
 Map insets are small zoom-in or zoom-out maps that focus on particular 
