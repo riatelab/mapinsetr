@@ -51,6 +51,11 @@ mf_map(nc[nc$CNTY_ID == 2000, ], col = 4, add = TRUE)
 mf_map(inset3, col = 4, add = TRUE)
 # plusieurs objets dans une autre proj
 mtq <- mf_get_mtq()
-mvd <- m_r(x = mtq, mask = mtq, y = y[4])
-mf_map(mvd, col = 5, add = TRUE)
+inset4 <- m_r(x = mtq, mask = mtq, y = y[4])
+mf_map(inset4, col = 5, add = TRUE)
+# bouger des points
+pts <- st_as_sf(st_sample(x = nc[1, ], 10))
+inset5 <- m_r(x = pts, mask = nc[1,], y = y[1])
+mf_map(pts, cex = .2, add=TRUE)
+mf_map(inset5, cex = .2, add = TRUE)
 }

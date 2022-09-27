@@ -38,8 +38,13 @@
 #' mf_map(inset3, col = 4, add = TRUE)
 #' # plusieurs objets dans une autre proj
 #' mtq <- mf_get_mtq()
-#' mvd <- m_r(x = mtq, mask = mtq, y = y[4])
-#' mf_map(mvd, col = 5, add = TRUE)
+#' inset4 <- m_r(x = mtq, mask = mtq, y = y[4])
+#' mf_map(inset4, col = 5, add = TRUE)
+#' # bouger des points
+#' pts <- st_as_sf(st_sample(x = nc[1, ], 10))
+#' inset5 <- m_r(x = pts, mask = nc[1,], y = y[1])
+#' mf_map(pts, cex = .2, add=TRUE)
+#' mf_map(inset5, cex = .2, add = TRUE)
 m_r <- function(x, mask, y, verbose = FALSE){
   # names order mngmt
   namesorder <- names(x)
@@ -81,8 +86,21 @@ m_r <- function(x, mask, y, verbose = FALSE){
   xy <- bby[1:2]
   
   # intersect mask and x
-  st_agr(x) <- "constant"
-  x <- st_intersection(x, mask)
+  if (class(st_geometry(x))[1]=="sfc_POINT"){
+    x <-  st_intersection(x, mask)
+    type <- sf::st_geometry_type(x, by_geometry = TRUE)
+    type <- as.character(unique(type))
+    if (length(type) > 1) {
+      x <-  st_collection_extract(x, type = "POINT")
+    }
+  }else{
+    st_agr(x) <- "constant"
+    x <- st_intersection(x, mask)
+  }
+  
+  
+  
+  
   
   # add mask to x
   xm <- x[1, ]
@@ -102,7 +120,7 @@ m_r <- function(x, mask, y, verbose = FALSE){
   
   # names order mngmt
   x <- x[, namesorder]
-
+  
   if(verbose){message(paste0("k = ", round(k, 3)))}
   
   return(x)
