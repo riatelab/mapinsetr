@@ -1,8 +1,10 @@
 # Create Map Insets with `mapinsetr`
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/riatelab/mapinsetr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/riatelab/mapinsetr/actions/workflows/R-CMD-check.yaml)
 ![](https://img.shields.io/badge/license-GPL--3-brightgreen.svg?style=flat)
-[![Build
-Status](https://travis-ci.org/riatelab/mapinsetr.svg?branch=master)](https://travis-ci.org/riatelab/mapinsetr)
+<!-- badges: end -->
 
 Map insets are small zoom-in or zoom-out maps that focus on particular
 territories within a general map. `mapinsetr` provides a set of
