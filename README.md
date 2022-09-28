@@ -29,11 +29,11 @@ The aim of this example is to create a base map of Algeria’s
 municipalities with an inset on the Algiers wilaya.  
 Here are the few steps of the base map creation process:
 
-  - download data on Algerian administrative boundaries,  
-  - create a mask that will help to extract the municipalities,  
-  - create an inset of Alger municipalities within the previously
+-   download data on Algerian administrative boundaries,  
+-   create a mask that will help to extract the municipalities,  
+-   create an inset of Alger municipalities within the previously
     created mask,  
-  - merge the original basemap and inset
+-   merge the original basemap and inset
 
 ### Download data on Algerian administrative boundaries.
 
@@ -51,7 +51,7 @@ stands for “Nord Sahara 1959 / Voirol Unifie Nord”).
 library(raster)
 library(sf)
 # download data from gadm.org
-adm0 <- st_as_sf(getData(name = "GADM", country = "DZA", level = 0, path = tempdir()))
+adm0 <-st_as_sf( getData(name = "GADM", country = "DZA", level = 0, path = tempdir() ))
 adm0 <- st_transform(adm0, 30791)
 adm2 <- st_as_sf(getData(name = "GADM", country = "DZA", level = 2, path = tempdir()))
 adm2 <- st_transform(adm2, 30791)
@@ -74,11 +74,11 @@ buffer.
 
 ``` r
 library(mapinsetr)
-alger_extent <- st_buffer(adm2[adm2$NAME_1 == "Alger", ], dist = 2000)
+alger_extent <- st_buffer(adm2[adm2$NAME_1=="Alger", ],dist = 2000)
 box_alger <- create_mask(bb = alger_extent)
 plot(st_geometry(adm0), lwd = 2)
-plot(st_geometry(adm2), add = T, col = "grey80", lwd = 0.2)
-plot(st_geometry(box_alger), border = "red", add = T, lwd = 2)
+plot(st_geometry(adm2), add=T, col = "grey80", lwd = 0.2)
+plot(st_geometry(box_alger), border = "red", add=T, lwd = 2)
 ```
 
 ![](README_files/figure-gfm/mask-1.png)<!-- -->
@@ -88,8 +88,9 @@ Alternatively, one can define the mask interactively on the plot :
 ``` r
 library(mapinsetr)
 plot(st_geometry(adm0), lwd = 2)
-plot(st_geometry(adm2), add = T, col = "grey80", lwd = 0.2)
-box_alger_interactive <- create_mask(interactive = TRUE, add = TRUE, prj = st_crs(adm0))
+plot(st_geometry(adm2), add=T, col = "grey80", lwd = 0.2)
+box_alger_interactive <- create_mask(interactive = TRUE, add=TRUE, 
+                                     prj =  st_crs(adm0))
 ```
 
 ![](README_files/inter.gif)
@@ -98,19 +99,16 @@ box_alger_interactive <- create_mask(interactive = TRUE, add = TRUE, prj = st_cr
 
 The `move_and_resize` function extracts polygons or multipolygons (`x`)
 within a mask (`mask`), moves them to coordinates (`xy`, bottom left
-corner of the inset) and resizes them according to a factor
-(`k`).
+corner of the inset) and resizes them according to a factor (`k`).
 
 ``` r
-zoom_alger <- move_and_resize(x = adm2, mask = box_alger, xy = c(-1e+06, -1e+05), 
-    k = 15)
-box <- move_and_resize(x = box_alger, mask = box_alger, xy = c(-1e+06, -1e+05), 
-    k = 15)
+zoom_alger <- move_and_resize(x = adm2, mask = box_alger, xy = c(-1000000,  -100000), k = 15)
+box <- move_and_resize(x = box_alger, mask = box_alger, xy = c(-1000000,  -100000), k = 15)
 plot(st_geometry(adm0), lwd = 2)
-plot(st_geometry(adm2), add = T, col = "grey80", lwd = 0.2)
-plot(st_geometry(box_alger), border = "red", add = T, lwd = 2)
-plot(st_geometry(zoom_alger), add = T, col = "grey80", lwd = 0.2)
-plot(st_geometry(box), border = "red", lwd = 1, add = T)
+plot(st_geometry(adm2), add=T, col = "grey80", lwd = 0.2)
+plot(st_geometry(box_alger), border = "red", add=T, lwd = 2)
+plot(st_geometry(zoom_alger), add=T, col = "grey80", lwd = 0.2)
+plot(st_geometry(box), border = "red", lwd = 1, add=T)
 ```
 
 ![](README_files/figure-gfm/createInset-1.png)<!-- -->
@@ -134,14 +132,17 @@ The following example build a map of Municipalities types.
 
 ``` r
 library(cartography)
-adm2final[adm2final$CCA_2 == 2223, "TYPE_2"] <- "Commune"
+adm2final[adm2final$CCA_2==2223, "TYPE_2"] <- "Commune"
 plot(st_geometry(adm0), lwd = 2)
-typoLayer(adm2final, var = "TYPE_2", legend.title.txt = "Commune Type", border = "white", 
-    lwd = 0.1, col = carto.pal("multi.pal", 3), legend.pos = "topright", add = T)
-plot(st_geometry(box_alger), border = "red", add = T, lwd = 2)
-plot(st_geometry(box), border = "red", lwd = 2, add = T)
+typoLayer(adm2final, var = "TYPE_2", 
+          legend.title.txt = "Commune Type",
+          border = "white", lwd = 0.1, 
+          col = carto.pal("multi.pal", 3), 
+          legend.pos = "topright", add = T)
+plot(st_geometry(box_alger), border = "red", add=T, lwd = 2)
+plot(st_geometry(box), border = "red", lwd = 2, add=T)
 layoutLayer(title = "Commune Types in Algeria with a Zoom on Alger Region", 
-    sources = "GADM 2.8, 2015", author = "@rCarto", theme = "green.pal")
+            sources = "GADM 2.8, 2015", author = "@rCarto", theme = "green.pal")
 ```
 
 ![](README_files/figure-gfm/ex-1.png)<!-- -->
