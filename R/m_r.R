@@ -3,7 +3,7 @@
 #' @param x the layer to cut, resize and move
 #' @param mask the targeted area in x
 #' @param y destination 
-#' @param verbose display k 
+#' @param return_k return the k factor 
 #'
 #' @return a layer
 #' @export
@@ -45,24 +45,38 @@
 #' inset5 <- m_r(x = pts, mask = nc[1,], y = y[1])
 #' mf_map(pts, cex = .2, add=TRUE)
 #' mf_map(inset5, cex = .2, add = TRUE)
-m_r <- function(x, mask, y, verbose = FALSE){
+m_r <- function(x, mask, y, return_k = FALSE){
+  # input management
+  test_input(x, "x", TRUE)
+  test_input(mask, "mask", FALSE)
+  test_input(y, "y", FALSE)
+  if(st_crs(x) != st_crs(mask)){
+    stop(paste0('x and mask should use the same CRS.'), call. = FALSE)
+  }
+  
   # names order mngmt
   namesorder <- names(x)
   
-  # multipolygon mgmt
-  cp <- class(st_geometry(x))[1]=="sfc_MULTIPOLYGON"
+  # type mgmt
+  type <- test_type(x)
   
+  
+  # compute matching mask geometry
   bbm <- st_bbox(mask)
   bby <- st_bbox(y)
   bby_l <- bby[3] - bby[1]
   bby_h <- bby[4] - bby[2] 
-  hly <- bby_h / bby_l
   bbm_l <- bbm[3] - bbm[1]
   bbm_h <- bbm[4] - bbm[2]
+  hly <- bby_h / bby_l
   hlm <- bbm_h / bbm_l
   
   # si hauteur y > largeur y
-  if(hly <= 1){fact <- 1/hly}else{fact <- hly}
+  if(hly <= 1){
+    fact <- 1 / hly
+  }else{
+    fact <- hly
+  }
   # si y est plus étiré en hauteur que m
   if(hly >= hlm){
     new_h <- bbm_l * fact
@@ -76,31 +90,33 @@ m_r <- function(x, mask, y, verbose = FALSE){
     bbm[1] <- bbm[1] - ad
     bbm[3] <- bbm[3] + ad
   }
-  
   mask <- st_as_sfc(bbm, crs = st_crs(mask))
+  
+  # compute matching k value
   bbm <- st_bbox(mask)
   bbm_l <- bbm[3] - bbm[1]
   bbm_h <- bbm[4] - bbm[2]
-  
   k <- bby_l / bbm_l
-  xy <- bby[1:2]
   
-  # intersect mask and x
-  if (class(st_geometry(x))[1]=="sfc_POINT"){
-    x <-  st_intersection(x, mask)
-    type <- sf::st_geometry_type(x, by_geometry = TRUE)
-    type <- as.character(unique(type))
-    if (length(type) > 1) {
-      x <-  st_collection_extract(x, type = "POINT")
-    }
-  }else{
-    st_agr(x) <- "constant"
-    x <- st_intersection(x, mask)
+  if(return_k){
+    return(k)
   }
   
   
+  xy <- bby[1:2]
   
-  
+  # intersect mask and x
+  if (type == "POINT"){
+    x <-  st_intersection(x, mask)
+    type <- sf::st_geometry_type(x, by_geometry = FALSE)
+    type <- as.character(unique(type))
+    if (type == "GEOMETRY") {
+      x <-  st_collection_extract(x, type = "POINT")
+    }
+  } else {
+    st_agr(x) <- "constant"
+    x <- st_intersection(x, mask)
+  }
   
   # add mask to x
   xm <- x[1, ]
@@ -115,13 +131,18 @@ m_r <- function(x, mask, y, verbose = FALSE){
   # get rid of mask
   x <- x[-1,]
   
-  if (cp){x <- st_cast(x, "MULTIPOLYGON")}
+  # MULTIPOLYGON mgmt
+  if (type == "MULTIPOLYGON"){
+    x <- st_cast(x, "MULTIPOLYGON")
+  }
+  
+  # Asssign destination layer CRS to result
   st_crs(x) <- st_crs(y)
   
   # names order mngmt
   x <- x[, namesorder]
   
-  if(verbose){message(paste0("k = ", round(k, 3)))}
+
   
   return(x)
 }

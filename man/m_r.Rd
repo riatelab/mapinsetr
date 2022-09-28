@@ -4,7 +4,7 @@
 \alias{m_r}
 \title{Move and Resize in Box}
 \usage{
-m_r(x, mask, y, verbose = FALSE)
+m_r(x, mask, y, return_k = FALSE)
 }
 \arguments{
 \item{x}{the layer to cut, resize and move}
@@ -13,7 +13,7 @@ m_r(x, mask, y, verbose = FALSE)
 
 \item{y}{destination}
 
-\item{verbose}{display k}
+\item{return_k}{return the k factor}
 }
 \value{
 a layer
