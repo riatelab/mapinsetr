@@ -22,8 +22,11 @@ test_input <- function(x, name, sf = TRUE){
 test_type <- function(x){
   type <- sf::st_geometry_type(x, by_geometry = FALSE)
   type <- as.character(unique(type))
-  if (!type %in% c("POINT", "POLYGON", "MULTIPOLYGON")){
-    stop("x geometry should be of type POINT, POLYGON or MULTIPOLYGON.", 
+  if (!type %in% c("POINT", "MULTIPOINT", 
+                   "LINESTRING", "MULTILINESTRING", 
+                   "POLYGON", "MULTIPOLYGON")){
+    stop(paste0("x geometry should be of type POINT, MULTIPOINT,", 
+                "LINESTRING, MULTILINESTRING, POLYGON or MULTIPOLYGON."), 
          call. = FALSE)
   } 
   return(type)

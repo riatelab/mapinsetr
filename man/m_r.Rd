@@ -7,11 +7,11 @@
 m_r(x, mask, y, return_k = FALSE)
 }
 \arguments{
-\item{x}{the layer to cut, resize and move}
+\item{x}{the layer to cut, resize and move, sf}
 
-\item{mask}{the targeted area in x}
+\item{mask}{the targeted area in x, sf or sfc}
 
-\item{y}{destination}
+\item{y}{destination, sf or sfc}
 
 \item{return_k}{return the k factor}
 }
@@ -19,7 +19,8 @@ m_r(x, mask, y, return_k = FALSE)
 a layer
 }
 \description{
-do stuff
+do stuff, all layers must use a cartographic projection, 
+no lon/lat.
 }
 \examples{
 library(sf)
@@ -44,8 +45,8 @@ inset2 <- m_r(x = nc, mask = nc[2,], y = y[2])
 mf_map(nc[2, ], col = 3, add = TRUE)
 mf_map(inset2, col = 3, add = TRUE)
 # un seul objet, réduit
-inset3 <- m_r(x = nc[nc$CNTY_ID == 2000, ], 
-              mask = nc[nc$CNTY_ID == 2000, ], 
+inset3 <- m_r(x = nc[nc$CNTY_ID == 2000, ],
+              mask = nc[nc$CNTY_ID == 2000, ],
               y = y[3])
 mf_map(nc[nc$CNTY_ID == 2000, ], col = 4, add = TRUE)
 mf_map(inset3, col = 4, add = TRUE)
@@ -58,4 +59,15 @@ pts <- st_as_sf(st_sample(x = nc[1, ], 10))
 inset5 <- m_r(x = pts, mask = nc[1,], y = y[1])
 mf_map(pts, cex = .2, add=TRUE)
 mf_map(inset5, cex = .2, add = TRUE)
+# MULTIPOINT
+pts <- (st_sample(x = nc[3, ], 30))
+pts <- st_as_sf(st_combine(x = pts))
+inset6 <- m_r(x = pts, mask = nc[3,], y = y[5])
+mf_map(pts, cex = .5, add = TRUE)
+mf_map(inset6, cex = .5, add = TRUE)
+# MULTILINESTRING
+line <- st_cast(nc, 'MULTILINESTRING')
+inset7 <- m_r(x = line, mask = line[4,], y = y[6])
+mf_map(line[4, ], col = 3, add = TRUE, lwd = 3)
+mf_map(inset7, add = TRUE, col = 3, lwd = 3)
 }

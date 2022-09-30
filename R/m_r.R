@@ -1,8 +1,9 @@
 #' @title Move and Resize in Box
-#' @description do stuff
-#' @param x the layer to cut, resize and move
-#' @param mask the targeted area in x
-#' @param y destination 
+#' @description do stuff, all layers must use a cartographic projection, 
+#' no lon/lat.
+#' @param x the layer to cut, resize and move, sf
+#' @param mask the targeted area in x, sf or sfc
+#' @param y destination, sf or sfc
 #' @param return_k return the k factor 
 #'
 #' @return a layer
@@ -31,8 +32,8 @@
 #' mf_map(nc[2, ], col = 3, add = TRUE)
 #' mf_map(inset2, col = 3, add = TRUE)
 #' # un seul objet, réduit
-#' inset3 <- m_r(x = nc[nc$CNTY_ID == 2000, ], 
-#'               mask = nc[nc$CNTY_ID == 2000, ], 
+#' inset3 <- m_r(x = nc[nc$CNTY_ID == 2000, ],
+#'               mask = nc[nc$CNTY_ID == 2000, ],
 #'               y = y[3])
 #' mf_map(nc[nc$CNTY_ID == 2000, ], col = 4, add = TRUE)
 #' mf_map(inset3, col = 4, add = TRUE)
@@ -45,6 +46,17 @@
 #' inset5 <- m_r(x = pts, mask = nc[1,], y = y[1])
 #' mf_map(pts, cex = .2, add=TRUE)
 #' mf_map(inset5, cex = .2, add = TRUE)
+#' # MULTIPOINT
+#' pts <- (st_sample(x = nc[3, ], 30))
+#' pts <- st_as_sf(st_combine(x = pts))
+#' inset6 <- m_r(x = pts, mask = nc[3,], y = y[5])
+#' mf_map(pts, cex = .5, add = TRUE)
+#' mf_map(inset6, cex = .5, add = TRUE)
+#' # MULTILINESTRING
+#' line <- st_cast(nc, 'MULTILINESTRING')
+#' inset7 <- m_r(x = line, mask = line[4,], y = y[6])
+#' mf_map(line[4, ], col = 3, add = TRUE, lwd = 3)
+#' mf_map(inset7, add = TRUE, col = 3, lwd = 3)
 m_r <- function(x, mask, y, return_k = FALSE){
   # input management
   test_input(x, "x", TRUE)
@@ -55,11 +67,10 @@ m_r <- function(x, mask, y, return_k = FALSE){
   }
   
   # names order mngmt
-  namesorder <- names(x)
+  # namesorder <- names(x)
   
   # type mgmt
   type <- test_type(x)
-  
   
   # compute matching mask geometry
   bbm <- st_bbox(mask)
@@ -102,20 +113,18 @@ m_r <- function(x, mask, y, return_k = FALSE){
     return(k)
   }
   
-  
   xy <- bby[1:2]
   
   # intersect mask and x
-  if (type == "POINT"){
-    x <-  st_intersection(x, mask)
-    type <- sf::st_geometry_type(x, by_geometry = FALSE)
-    type <- as.character(unique(type))
-    if (type == "GEOMETRY") {
-      x <-  st_collection_extract(x, type = "POINT")
-    }
-  } else {
+  if(inherits(x, "sf")){
     st_agr(x) <- "constant"
-    x <- st_intersection(x, mask)
+  }
+  x <-  st_intersection(x, mask)
+  if (st_geometry_type(x, by_geometry = FALSE) == "GEOMETRY") {
+    if (startsWith(x = type, "MULTI")){
+      typer <- substr(type, 6, nchar(type) )
+    }
+    x <-  st_collection_extract(x, type = typer)
   }
   
   # add mask to x
@@ -127,22 +136,17 @@ m_r <- function(x, mask, y, return_k = FALSE){
   cntrd <- st_centroid(st_combine(x))
   xg <- (st_geometry(x) - cntrd) * c(k) + cntrd[[1]][]
   st_geometry(x) <- xg + xy - st_bbox(xg)[1:2]
-  
   # get rid of mask
   x <- x[-1,]
   
-  # MULTIPOLYGON mgmt
-  if (type == "MULTIPOLYGON"){
-    x <- st_cast(x, "MULTIPOLYGON")
-  }
+  # type mgmt
+  x <- st_cast(x, type)
   
   # Asssign destination layer CRS to result
   st_crs(x) <- st_crs(y)
   
   # names order mngmt
-  x <- x[, namesorder]
-  
-
+  # x <- x[, namesorder]
   
   return(x)
 }
