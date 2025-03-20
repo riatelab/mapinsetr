@@ -6,4 +6,4 @@
 #' territories. \code{mapinsetr} provides a set of functions that helps to 
 #' create such insets.  
 #' @docType package
-NULL
+"_PACKAGE"

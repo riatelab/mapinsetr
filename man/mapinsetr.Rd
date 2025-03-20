@@ -2,10 +2,28 @@
 % Please edit documentation in R/package.R
 \docType{package}
 \name{mapinsetr}
+\alias{mapinsetr-package}
 \alias{mapinsetr}
 \title{mapinsetr Package}
 \description{
 Map insets are small zoom-in or zoom-out maps that focus on particular 
 territories. \code{mapinsetr} provides a set of functions that helps to 
 create such insets.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/riatelab/mapinsetr/}
+  \item Report bugs at \url{https://github.com/riatelab/mapinsetr/issues/}
+}
+
+}
+\author{
+\strong{Maintainer}: Timothée Giraud \email{timothee.giraud@cnrs.fr} (\href{https://orcid.org/0000-0002-1932-3323}{ORCID})
+
+Authors:
+\itemize{
+  \item Nicolas Lambert \email{nicolas.lambert@cnrs.fr}
+}
+
 }

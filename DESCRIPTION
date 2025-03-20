@@ -17,4 +17,4 @@ Suggests: mapsf
 URL: https://github.com/riatelab/mapinsetr/
 BugReports: https://github.com/riatelab/mapinsetr/issues/
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.2
