@@ -125,7 +125,7 @@ mf_map(adm0, lwd = 2, add = TRUE, col = NA)
 mf_map(box_alger, border = "red", col = NA, add = TRUE, lwd = 2)
 mf_map(box, border = "red", col = NA, lwd = 2, add = TRUE)
 mf_title("Commune Types in Algeria with a Zoom on Algiers Region")
-mf_credits("GADM 2.8, 2015")
+mf_credits("GADM 4.1, 2025")
 mf_scale(200)
 mf_arrow(pos = "topright")
 ```
